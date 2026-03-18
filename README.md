@@ -4,7 +4,7 @@ Um repositório simples contendo a *assinatura de e-mail* e a *página de e-mail
 
 ---
 
-## Visualizar em produção
+## Visualizar
 
 - **Assinatura de e-mail:**
   https://www.dbrescia.com.br/mailmkt/assinatura.html
@@ -13,7 +13,7 @@ Um repositório simples contendo a *assinatura de e-mail* e a *página de e-mail
 
 ---
 
-## Ver / copiar o código (GitHub)
+## Ver / copiar o código
 
 Abra os arquivos abaixo no GitHub para visualizar o código e copiar o que precisar:
 
