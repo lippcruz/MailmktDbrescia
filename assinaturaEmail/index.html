@@ -4,7 +4,111 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .layout-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .panel {
+        background: #f9f9f9;
+        border: 1px solid #d8d8d8;
+        border-radius: 8px;
+        padding: 14px;
+        box-sizing: border-box;
+      }
+      .generator-panel {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .generator-panel textarea#generated-code {
+        font-family: Consolas, Monaco, monospace;
+      }
+      .panel h2 {
+        margin: 0 0 10px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .code-actions {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .code-actions button {
+        padding: 10px 14px;
+        border: none;
+        border-radius: 4px;
+        background: #0b0b0b;
+        color: #f1efe9;
+        cursor: pointer;
+      }
+      textarea#generated-code {
+        width: 100%;
+        min-height: 220px;
+        padding: 10px;
+        font-family: Consolas, Monaco, monospace;
+        font-size: 12px;
+        line-height: 1.4;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #fff;
+        color: #222;
+        box-sizing: border-box;
+      }
+      .preview-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .preview-box {
+        border: 1px solid #d8d8d8;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      @media only screen and (max-width: 980px) {
+        .layout-grid {
+          grid-template-columns: 1fr;
+        }
+      }
       @media only screen and (max-width: 680px) {
+        .layout-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        body {
+          padding: 8px 10px !important;
+        }
+        .panel {
+          padding: 12px;
+        }
+        .panel h2 {
+          font-size: 15px;
+        }
+        .code-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .code-actions button {
+          width: 100%;
+        }
+        textarea#generated-code {
+          min-height: 180px;
+        }
+        .preview-box {
+          overflow-x: auto;
+        }
+        .preview-box table {
+          min-width: 100%;
+        }
+        .qr {
+          margin: 0 auto 8px !important;
+          width: 82px !important;
+          height: auto !important;
+          border-width: 2px !important;
+        }
         .stack {
           display: block;
           width: 100% !important;
@@ -16,31 +120,64 @@
         .center-mobile {
           text-align: center !important;
         }
-        .qr {
-          margin: 0 auto 8px !important;
-          width: 82px !important;
-          height: auto !important;
-          border-width: 2px !important;
-        }
-        body {
-          padding: 8px !important;
-        }
       }
     </style>
   </head>
   <body style="margin: 0; padding: 12px; background: #fff">
-    <table
-      cellpadding="0"
-      cellspacing="0"
-      width="100%"
-      style="
-        font-family: Helvetica, Arial, sans-serif;
-        background: #fff;
-        border-collapse: collapse;
-        mso-table-lspace: 0pt;
-        mso-table-rspace: 0pt;
-      "
-    >
+    <div class="layout-grid" style="max-width: 1100px; width: 100%; margin: 0 auto;">
+      <div class="panel generator-panel" style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <h2>Variáveis de contato</h2>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+            <label style="font-size: 12px; display: block;">
+              Nome
+              <input id="input-name" class="sig-input" type="text" value="Luana Cegala" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+            </label>
+            <label style="font-size: 12px; display: block;">
+              Cargo
+              <input id="input-role" class="sig-input" type="text" value="Marketing" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+            </label>
+            <label style="font-size: 12px; display: block;">
+              Telefone
+              <input id="input-phone" class="sig-input" type="text" value="(11) 98163-8994" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+            </label>
+            <label style="font-size: 12px; display: block;">
+              Email
+              <input id="input-email" class="sig-input" type="email" value="comercial@dbresciachurrascaria.com.br" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+            </label>
+            <label style="font-size: 12px; display: block;">
+              Website
+              <input id="input-website" class="sig-input" type="url" value="https://www.dbrescia.com.br" style="width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;" />
+            </label>
+          </div>
+          <div style="font-size: 12px; color: #5f5f5f; margin-top: 10px;">Se algum campo estiver vazio, ele será ocultado automaticamente na assinatura ao lado.</div>
+        </div>
+        <div>
+          <h2>Código gerado</h2>
+          <div style="font-size: 12px; color: #5f5f5f; margin-bottom: 10px;">Copie o HTML abaixo para usar como assinatura de email.</div>
+          <textarea id="generated-code" readonly></textarea>
+          <div class="code-actions">
+            <button id="copy-code">Copiar código</button>
+            <span id="copy-status" style="font-size: 12px; color: #5f5f5f;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="preview-panel">
+        <div class="panel preview-box">
+          <h2>Pré-visualização</h2>
+          <table
+            id="signature-block"
+            cellpadding="0"
+            cellspacing="0"
+            width="100%"
+            style="
+              font-family: Helvetica, Arial, sans-serif;
+              background: #fff;
+              border-collapse: collapse;
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+            "
+          >
       <tr>
         <td align="center">
           <table
@@ -79,6 +216,7 @@
                     </td>
                     <td style="text-align: right; vertical-align: middle">
                       <div
+                        id="sig-name"
                         style="
                           font-weight: 700;
                           font-size: 20px;
@@ -88,6 +226,7 @@
                         Luana Cegala
                       </div>
                       <div
+                        id="sig-role"
                         style="font-size: 12px; color: #7a7a79; margin-top: 4px"
                       >
                         Marketing
@@ -157,29 +296,29 @@
                         box-sizing: border-box;
                       "
                     >
-                      <div style="margin-bottom: 6px">
+                      <div id="phone-row" style="margin-bottom: 6px">
                         📞
                         <a
+                          id="phone-link"
                           href="tel:+5511981638994"
                           style="color: #f1efe9; text-decoration: none"
-                          >(11) 98163-8994</a
-                        >
+                        ><span id="phone-value">(11) 98163-8994</span></a>
                       </div>
-                      <div style="margin-bottom: 6px">
+                      <div id="email-row" style="margin-bottom: 6px">
                         ✉️
                         <a
+                          id="email-link"
                           href="mailto:comercial@dbresciachurrascaria.com.br"
                           style="color: #f1efe9; text-decoration: none"
-                          >comercial@dbresciachurrascaria.com.br</a
-                        >
+                        ><span id="email-value">comercial@dbresciachurrascaria.com.br</span></a>
                       </div>
-                      <div style="margin-bottom: 6px">
+                      <div id="website-row" style="margin-bottom: 6px">
                         🌐
                         <a
+                          id="website-link"
                           href="https://www.dbrescia.com.br"
                           style="color: #f1efe9; text-decoration: none"
-                          >www.dbrescia.com.br</a
-                        >
+                        ><span id="website-value">www.dbrescia.com.br</span></a>
                       </div>
                     </td>
                   </tr>
@@ -203,8 +342,87 @@
               </td>
             </tr>
           </table>
-        </td>
-      </tr>
-    </table>
+        </div>
+      </div>
+    </div>
+    <script>
+      function updateGeneratedCode() {
+        const signatureBlock = document.getElementById('signature-block');
+        const textarea = document.getElementById('generated-code');
+        const html = signatureBlock.outerHTML;
+        textarea.value = html;
+      }
+
+      function updateSignature() {
+        const name = document.getElementById('input-name').value.trim();
+        const role = document.getElementById('input-role').value.trim();
+        const phone = document.getElementById('input-phone').value.trim();
+        const email = document.getElementById('input-email').value.trim();
+        const website = document.getElementById('input-website').value.trim();
+
+        document.getElementById('sig-name').textContent = name || 'Nome';
+        const sigRole = document.getElementById('sig-role');
+        if (role) {
+          sigRole.textContent = role;
+          sigRole.style.display = 'block';
+        } else {
+          sigRole.style.display = 'none';
+        }
+
+        const phoneRow = document.getElementById('phone-row');
+        const phoneLink = document.getElementById('phone-link');
+        const phoneValue = document.getElementById('phone-value');
+        if (phone) {
+          phoneValue.textContent = phone;
+          phoneLink.href = 'tel:' + phone.replace(/\D/g, '');
+          phoneRow.style.display = 'block';
+        } else {
+          phoneRow.style.display = 'none';
+        }
+
+        const emailRow = document.getElementById('email-row');
+        const emailLink = document.getElementById('email-link');
+        const emailValue = document.getElementById('email-value');
+        if (email) {
+          emailValue.textContent = email;
+          emailLink.href = 'mailto:' + email;
+          emailRow.style.display = 'block';
+        } else {
+          emailRow.style.display = 'none';
+        }
+
+        const websiteRow = document.getElementById('website-row');
+        const websiteLink = document.getElementById('website-link');
+        const websiteValue = document.getElementById('website-value');
+        if (website) {
+          websiteValue.textContent = website.replace(/^https?:\/\//, '');
+          websiteLink.href = website;
+          websiteRow.style.display = 'block';
+        } else {
+          websiteRow.style.display = 'none';
+        }
+      }
+
+      document.querySelectorAll('.sig-input').forEach(function (input) {
+        input.addEventListener('input', function () {
+          updateSignature();
+          updateGeneratedCode();
+        });
+      });
+
+      document.getElementById('copy-code').addEventListener('click', function () {
+        const textarea = document.getElementById('generated-code');
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+        navigator.clipboard.writeText(textarea.value).then(function () {
+          document.getElementById('copy-status').textContent = 'Copiado!';
+        }, function () {
+          document.getElementById('copy-status').textContent = 'Não foi possível copiar automaticamente. Copie manualmente.';
+        });
+      });
+
+      updateSignature();
+      updateGeneratedCode();
+    </script>
   </body>
 </html>
