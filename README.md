@@ -10,6 +10,12 @@ Repositório com os templates de marketing para a D'Brescia, incluindo páginas 
 - `b2b/index.html` — página de e-mail marketing corporativo (B2B)
 - `b2c/index.html` — página de e-mail marketing para clientes finais (B2C)
 
+## Links de visualização
+
+- `https://lippcruz.github.io/MailmktDbrescia/assinaturaEmail/index.html`
+- `https://lippcruz.github.io/MailmktDbrescia/b2b/index.html`
+- `https://lippcruz.github.io/MailmktDbrescia/b2c/index.html`
+
 ---
 
 ## Como visualizar
